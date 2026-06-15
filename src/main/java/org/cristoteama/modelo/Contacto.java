@@ -1,4 +1,7 @@
 package org.cristoteama.modelo;
+import java.util.Objects;
+
+
 
 public class Contacto {
     private String nombre;
@@ -44,6 +47,14 @@ public class Contacto {
         if (obj == null || getClass() != obj.getClass()) return false;
         Contacto contacto = (Contacto) obj;
         return this.nombre.equalsIgnoreCase(contacto.nombre);
+    }
+
+    @Override
+    public int hashCode() {
+        if (nombre == null) {
+            return 0;
+        }
+        return Objects.hash(nombre.toLowerCase());
     }
 
     @Override
