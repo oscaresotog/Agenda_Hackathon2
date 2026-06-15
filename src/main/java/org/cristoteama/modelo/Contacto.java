@@ -6,16 +6,19 @@ public class Contacto {
     private String telefono;
 
     //constructor
-    public Contacto(String nombre, String telefono, String apellido) {
+    public Contacto(String nombre, String apellido, String telefono) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.telefono = telefono;
     }
 
+
+
     //getters y setters
     public String getNombre() {
         return nombre;
     }
+
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
@@ -51,3 +54,4 @@ public class Contacto {
         return nombre + " - " + telefono;
         }
     }
+
