@@ -1,4 +1,13 @@
 package org.cristoteama.vista;
 
-public class VentanaPrincipal {
+import javax.swing.*;
+
+public class VentanaPrincipal extends JFrame {
+    private JPanel contentPane;
+    private JTextField bookNameField;
+    private JTextField authorNameField;
+    private JComboBox genreComboBox;
+    private JCheckBox isTakenCheckBox;
+    private JTextField textField1;
+    private JTextField textField2;
 }
