@@ -5,9 +5,10 @@ import javax.swing.*;
 public class VentanaPrincipal extends JFrame {
     private JPanel contentPane;
     private JTextField bookNameField;
-    private JTextField authorNameField;
-    private JComboBox genreComboBox;
-    private JCheckBox isTakenCheckBox;
-    private JTextField textField1;
-    private JTextField textField2;
+    private JTextField txtNombre;
+    private JTextField txtApellido;
+    private JTextField txtTelefono;
+    private JButton añadirContactoButton;
+
+
 }
