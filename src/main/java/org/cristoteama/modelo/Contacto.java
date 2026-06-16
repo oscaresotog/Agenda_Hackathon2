@@ -1,24 +1,26 @@
 package org.cristoteama.modelo;
 
+import java.util.Objects; // Necesario para el hashCode
+
 public class Contacto {
+
+    // Atributos encapsulados
     private String nombre;
     private String apellido;
     private String telefono;
 
-    //constructor
+    // Constructor con inicialización de estado
     public Contacto(String nombre, String apellido, String telefono) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.telefono = telefono;
     }
 
+    // --- Getters y Setters ---
 
-
-    //getters y setters
     public String getNombre() {
         return nombre;
     }
-
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
@@ -40,18 +42,31 @@ public class Contacto {
         this.telefono = telefono;
     }
 
-    // Sobrescritura de equal: son dos contactos iguales si solo el nombre coincide
+    // --- Métodos Sobrescritos de la clase Object ---
+
+    // La identidad lógica del contacto se basa exclusivamente en Nombre y Apellido
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
         if (obj == null || getClass() != obj.getClass()) return false;
+
         Contacto contacto = (Contacto) obj;
-        return this.nombre.equalsIgnoreCase(contacto.nombre);
+
+        // Ignoramos mayúsculas/minúsculas para evitar duplicados accidentales (ej. "Bruno" vs "bruno")
+        return this.nombre.equalsIgnoreCase(contacto.nombre) &&
+                this.apellido.equalsIgnoreCase(contacto.apellido);
     }
 
+    // Contrato de Java: Al sobrescribir equals(), se debe generar un hash coherente
     @Override
-    public String toString(){
-        return nombre + " - " + telefono;
-        }
+    public int hashCode() {
+        // Usamos toLowerCase para mantener la coherencia con equalsIgnoreCase
+        return Objects.hash(nombre.toLowerCase(), apellido.toLowerCase());
     }
 
+    // Representación en texto del objeto (ideal para logs o depuración rápida)
+    @Override
+    public String toString() {
+        return String.format("%s %s - %s", nombre, apellido, telefono);
+    }
+}

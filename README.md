@@ -1,89 +1,63 @@
-# Agenda_Hackathon2
-Plan de Acción: Agenda de Contactos (Java)
+# 📖 Agenda de Contactos - Hackathon 2 (Java GUI)
 
-1. Estructura del Equipo y Roles (8 Integrantes)
-   Proyecto que requiere principalmente lógica de backend y estructura de datos, dividiremos los roles para asegurar cobertura en desarrollo, pruebas y documentación simultánea.
+## 🚀 Descripción del Proyecto
+Aplicación de escritorio desarrollada en Java para la gestión de contactos. Este proyecto evolucionó de un planteamiento inicial en consola a una **Interfaz Gráfica de Usuario (GUI) utilizando Java Swing**, implementando el patrón de arquitectura **MVC (Modelo-Vista-Controlador)** para asegurar un código escalable, limpio y mantenible.
 
-| Rol                                                      | Cantidad | Responsabilidades Clave |
-|:---------------------------------------------------------| :---: | :--- |
-| Lider: Bruno                                             | 1 | Coordina el equipo, define la estructura de clases (`Contacto`, `Agenda`), toma decisiones técnicas (¿Array o ArrayList?) y gestiona el merge de código. |
-| Desarrollador Core (Modelo): Emmanuel                    | 2 | Implementa la clase `Contacto` (nombre, teléfono, `equals()`, `toString()`) y la lógica de comparación. Es crítico que la igualdad se base solo en el nombre. |
-| Desarrollador Core (Lógica): Oscar                       | 3 | Implementa la clase `Agenda`. Se encarga de los métodos: `añadirContacto`, `existeContacto`, `buscaContacto`, `eliminarContacto`, `agendaLlena`, `espacioLibres`. Maneja el tamaño fijo (10) o dinámico. |
-| Desarrollador de Interfaz (UI/Consola): Carlos y Yessica | 1 | Crea el menú en la consola, maneja la entrada de datos (`Scanner`), conecta las opciones del menú con los métodos de la agenda y maneja los mensajes de error/éxito. |
-| QA y Pruebas (Testing): Janice                           | 1 | Crea casos de prueba para cada método (ej: intentar añadir más de 10 contactos, buscar un nombre inexistente, eliminar un contacto que no existe). |
-| Documentador & Integrador: Tonantzin                     | 1 | Redacta el `README`, documenta cómo compilar y ejecutar, asegura que el código tenga comentarios y ayuda a subir el repositorio. |
+La agenda cuenta con un límite estricto de capacidad (10 contactos) y maneja validaciones de negocio en tiempo real, previniendo duplicados, campos vacíos y garantizando la integridad de los datos.
 
-Aunque somos 8 personas, el volumen de código para una agenda básica es pequeño. El QA y el Documentador debemos ayudar a escribir código o hacer pruebas de estrés (llenar la agenda 100 veces) para no quedarse sin tareas.
-2. Estrategia de Desarrollo (Sprints)
+---
 
-Dividiremos el tiempo del hackathon en 4 Sprints cortos. Asumimos un cronograma flexible, pero cada sprint debe tener un objetivo "terminado" antes de pasar al siguiente.
+## 👥 Estructura del Equipo y Roles (8 Integrantes)
+Dada la migración a una arquitectura con interfaz gráfica, las responsabilidades del equipo se adaptaron para cubrir el desarrollo visual, la lógica de negocio y el aseguramiento de calidad.
 
-Sprint 1: Cimientos y Estructura (20% del tiempo)
-Objetivo: Tener las clases base compuestas y funcionales sin menú.
-- Arquitecto: Define el paquete y las clases vacías.
-- Desarrolladores Modelo: Crean la clase `Contacto`.
-    - Atributos: `nombre` (String), `telefono` (String/long).
-    - Método `equals()`: Solo compara nombres.
-- Desarrolladores Lógica: Crean la clase `Agenda`.
-    - Atributo: Array de `Contacto` o `ArrayList`.
-    - Constructor: Tamaño por defecto (10) o personalizado.
-    - Método base `agendaLlena()` y `espacioLibres()`.
-- QA: Prueba instanciar objetos y verificar que `equals()` funcione correctamente.
+| Rol | Integrante(s)    | Responsabilidades Clave |
+| :--- |:-----------------| :--- |
+| **Líder Técnico & Arquitectura** | Bruno            | Coordinación general, diseño del patrón MVC, implementación del *Event Dispatch Thread* (EDT), integración de la UI (`Agendota`) con la lógica, y resolución de conflictos (Merge). |
+| **Desarrollo Core (Modelo)** | Emmanuel         | Construcción de la clase `Contacto`. Implementación crítica del contrato `equals()` y `hashCode()` para validación estricta de duplicidad por Nombre y Apellido. |
+| **Desarrollo Core (Lógica)** | Oscar            | Construcción de la clase `Agenda`. Lógica CRUD, control de capacidad máxima (10), validaciones de negocio y ordenamiento alfabético mediante `Comparator`. |
+| **Desarrollo Frontend (UI Swing)** | Carlos y Yessica | Diseño de la interfaz gráfica visual. Distribución de componentes (`JTextField`, `JButton`, `JList`), implementación del `JScrollPane` y manejo de la paleta visual. |
+| **QA y Testing** | Tonantzin        | Pruebas de borde: validación de campos vacíos, estrés de capacidad (agenda llena), flujos de búsqueda fallida y verificación de comportamiento visual (sombreo en listas). |
+| **Documentación & Clean Code** | Janice           | Redacción del `README`, revisión de estándares de código (uso de Lambdas de Java 8+, encapsulamiento) e instrucciones de despliegue. |
 
-Sprint 2: Lógica de Negocio Crítica (30% del tiempo)
-Objetivo: Implementar todas las reglas de negocio solicitadas.
-- Desarrolladores Lógica: Implementan el núcleo:
-    - `añadirContacto(Contacto c)`: Lógica para evitar duplicados y verificar si está llena.
-    - `existeContacto(Contacto c)`: Uso del `equals()`.
-    - `buscaContacto(String nombre)`: Búsqueda lineal.
-    - `eliminarContacto(Contacto c)`: Lógica de desplazamiento de array o remoción.
-- QA: Pruebas de borde:
-    - Intentar añadir cuando la agenda está llena (debe imprimir mensaje de error).
-    - Buscar y eliminar contactos inexistentes.
-- Documentador: Empieza a escribir los comentarios en el código (JavaDoc).
+---
 
-Sprint 3: Interfaz de Consola y Flujo (30% del tiempo)
-Objetivo: Que el usuario pueda interactuar con el programa.
-- Desarrollador UI: Crea el `while` infinito con `switch/case` en la consola.
-    - Opciones: 1. Añadir, 2. Listar, 3. Buscar, 4. Eliminar, 5. Salir.
-    - Manejo de excepciones de entrada (si el usuario pone letras en vez de números).
-- Líder: Asegura que los mensajes de error del backend (ej: "Agenda llena") se muestren claramente en la consola.
-- QA: Prueba el flujo completo: Añadir -> Listar -> Buscar -> Eliminar -> Verificar que desapareció.
+## ⚙️ Arquitectura y Tecnologías
+* **Lenguaje:** Java 8+ (Uso intensivo de expresiones Lambda y Collections API).
+* **Interfaz Gráfica:** Java Swing (con adaptación automática al `LookAndFeel` nativo del sistema operativo).
+* **Patrón de Diseño:** Modelo-Vista-Controlador (MVC).
+  * *Modelo:* `Contacto.java`
+  * *Controlador/Lógica:* `Agenda.java`
+  * *Vista:* `Agendota.java` y `Agenda.form`
 
-Sprint 4: Pulido, Pruebas Finales y Entrega (20% del tiempo)
-Objetivo: Código limpio, documentation y demo.
-- Todo el equipo: Revisión de código en pareja (Pair Programming) para encontrar errores de lógica.
-- Documentador: Crea el archivo `README.md` con:
-    - Instrucciones de compilación (`javac`, `java`).
-    - Descripción de las funcionalidades.
-    - Ejemplo de uso.
-- QA: Ejecuta una prueba final de "Destrucción": intenta romper el programa con entradas erróneas.
-- Líder: Prepara la presentación rápida (2 min) para el jurado.
+---
 
+## ✅ Características y Funcionalidades (Checklist Cumplido)
 
-3. Requisitos Técnicos a Cubrir (Checklist)
+### 1. Gestión de Datos (Modelo `Contacto`)
+* [x] Atributos encapsulados: `nombre`, `apellido`, `telefono`.
+* [x] **Mejora implementada:** El método `equals()` y `hashCode()` evalúan *Nombre + Apellido* ignorando mayúsculas/minúsculas para una prevención de duplicados más precisa y realista.
 
-Aseguremos de que el código final cumpla estrictamente con esto:
+### 2. Lógica de Negocio (Controlador `Agenda`)
+* [x] **Límite de Capacidad:** Restringido a 10 espacios (`CAPACIDAD` constante).
+* [x] **Añadir Contacto:** Bloquea campos vacíos, duplicados lógicos y desbordamiento de capacidad.
+* [x] **Modificar Teléfono:** Actualización en tiempo real sin alterar la identidad del contacto.
+* [x] **Búsqueda Exacta:** Retorna el objeto si coincide el nombre y apellido.
+* [x] **Eliminar Contacto:** Remueve el registro exacto tras validación.
+* [x] **Listado Dinámico:** Devuelve la lista ordenada alfabéticamente (por nombre y luego apellido) para su visualización.
+* [x] **Monitoreo de Estado:** Métodos `agendaLlena()` y `espaciosLibres()`.
 
-- [ ] Clase `Contacto`:
-    - [ ] Constructor con nombre y teléfono.
-    - [ ] Sobrescritura de `equals()`: Dos contactos son iguales si solo el nombre coincide.
-- [ ] Clase `Agenda`:
-    - [ ] Constructor con tamaño default (10) y con tamaño personalizado.
-    - [ ] `añadirContacto(Contacto c)`: Verifica duplicados y espacio.
-    - [ ] `existeContacto(Contacto c)`: Retorna booleano.
-    - [ ] `listarContactos()`: Imprime todos los contactos.
-    - [ ] `buscaContacto(String nombre)`: Retorna/Imprime teléfono.
-    - [ ] `eliminarContacto(Contacto c)`: Retorna booleano de éxito.
-    - [ ] `agendaLlena()`: Retorna booleano.
-    - [ ] `espacioLibres()`: Retorna `int`.
-- [ ] Menú:
-    - [ ] Loop principal en consola.
-    - [ ] Opciones claras y manejo de errores de entrada.
-      REPASAR:
-1.  Comunicación Constante: Usaremos un chat (Zoom). El Líder debe hacer un "stand-up" de 2 minutos cada hora para ver qué bloques están atascados.
-2.  Control de Versiones: Con Git, el Líder debe ser quien haga los `merge`. Evitemos que dos personas toquen el mismo archivo al mismo tiempo para no tener conflictos de fusión.
-3.  Prioridad: Si se acaba el tiempo, primero aseguremos que la lógica funcione (Sprint 2). El menú (Sprint 3) puede ser básico, pero si la lógica de "Agenda llena" falla, el proyecto no sirve.
-4.  Prueba de Fuego: Antes de entregar, un usuario ficticio que no sea el desarrollador del menú debe intentar usar el programa. Si se atasca al escribir, reparar eso en el Sprint 4.
+### 3. Interfaz Gráfica (Vista `Agendota`)
+* [x] **Sincronización en Tiempo Real:** El `JList` (apoyado por un `DefaultListModel`) se actualiza instantáneamente tras cualquier operación CRUD.
+* [x] **Búsqueda Visual (UX):** Al buscar un contacto, además de mostrar sus datos, la fila correspondiente en el `JList` se resalta automáticamente y la vista hace *scroll* hacia ella.
+* [x] **Feedback al Usuario:** Uso de `JOptionPane` para informar sobre éxitos, errores de validación y estado de la capacidad.
+* [x] **Limpieza Automática:** Los campos de texto se vacían y el cursor se auto-enfoca (`requestFocus`) tras cada acción exitosa.
 
+---
 
+## 🛠️ Instrucciones de Ejecución
+
+1. Clonar el repositorio en el entorno local.
+2. Abrir el proyecto en **IntelliJ IDEA** (recomendado para interpretar correctamente el archivo `.form` de la GUI).
+3. Navegar a `src/main/java/org/Main.java`.
+4. Ejecutar el método `main`.
+5. *Nota:* La aplicación intentará cargar el tema visual de tu sistema operativo (Windows/Mac/Linux) para una mejor experiencia. De no estar disponible, utilizará el tema por defecto de Java (Metal).

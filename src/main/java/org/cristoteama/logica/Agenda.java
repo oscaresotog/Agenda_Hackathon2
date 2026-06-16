@@ -4,119 +4,93 @@ import org.cristoteama.modelo.Contacto;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List; // Importamos la interfaz List
 
 public class Agenda {
-    ArrayList<Contacto> agenda = new ArrayList<>();
-    private final int Capacidad = 10;
 
-    public void añadirContacto(Contacto c) {
+    // Uso de interfaz List para mayor flexibilidad
+    private List<Contacto> agenda = new ArrayList<>();
+    private static final int CAPACIDAD = 10; // Límite de contactos
 
-        if (c.getNombre().trim().isEmpty() ||
-                c.getApellido().trim().isEmpty()) {
-            System.out.println("El nombre y apellido no pueden estar vacíos.");
-            return;
+    // Valida antes de la inserción
+    public String añadirContacto(Contacto c) {
+        if (c.getNombre().trim().isEmpty() || c.getApellido().trim().isEmpty()) {
+            return "El nombre y apellido no pueden estar vacíos.";
         }
 
-        if (agenda.size() >= Capacidad) {
-            System.out.println("La agenda está llena.");
-            return;
+        if (agendaLlena()) {
+            return "La agenda está llena. No hay espacio disponible.";
         }
 
         if (existeContacto(c)) {
-            System.out.println("El contacto ya existe.");
-            return;
-        }
-        if (agendaLlena()) {
-            System.out.println("La agenda está llena.");
-            return;
+            return "El contacto ya existe.";
         }
 
         agenda.add(c);
-        System.out.println("Contacto añadido correctamente.");
+        return "Contacto añadido correctamente.";
     }
 
+    // Validación de duplicidad exclusivamente en nombre y apellido no en el telefono
     public boolean existeContacto(Contacto c) {
-
         for (Contacto contacto : agenda) {
             if (contacto.getNombre().equalsIgnoreCase(c.getNombre())
                     && contacto.getApellido().equalsIgnoreCase(c.getApellido())) {
                 return true;
             }
         }
-
         return false;
     }
 
-    public void listarContactos() {
-
+    // Retorna la colección ordenada alfabéticamente para la capa de vista
+    public List<Contacto> obtenerContactos() {
         agenda.sort(
                 Comparator.comparing(Contacto::getNombre)
                         .thenComparing(Contacto::getApellido)
         );
-        for (Contacto c : agenda) {
-            System.out.println(c.getNombre()+" "+c.getApellido()+" - "+c.getTelefono());
-        }
+        return agenda;
     }
 
-    public void buscaContacto(String nombreCompleto) {
-
+    // Búsqueda del objeto completo
+    public Contacto buscarContacto(String nombre, String apellido) {
         for (Contacto c : agenda) {
-
-            String nombreAgenda =
-                    c.getNombre() + " " + c.getApellido();
-
-            if (nombreAgenda.equalsIgnoreCase(nombreCompleto)) {
-                System.out.println("Teléfono: " + c.getTelefono());
-                return;
+            if (c.getNombre().equalsIgnoreCase(nombre) && c.getApellido().equalsIgnoreCase(apellido)) {
+                return c;
             }
         }
-
-        System.out.println("Contacto no encontrado.");
+        return null;
     }
 
-    public void eliminarContacto(Contacto c) {
+    // Eliminación por coincidencia de nombre y apellido
+    public String eliminarContacto(String nombre, String apellido) {
         for (int i = 0; i < agenda.size(); i++) {
             Contacto contacto = agenda.get(i);
-            if (contacto.getNombre().equalsIgnoreCase(c.getNombre())
-            && contacto.getApellido().equalsIgnoreCase(c.getApellido())) {
+            if (contacto.getNombre().equalsIgnoreCase(nombre)
+                    && contacto.getApellido().equalsIgnoreCase(apellido)) {
                 agenda.remove(i);
-                System.out.println("Contacto eliminado.");
-                return;
+                return "Contacto eliminado exitosamente.";
             }
         }
-        System.out.println("El contacto no existe.");
-
+        return "Error: El contacto no existe.";
     }
+
     public boolean agendaLlena() {
-        if (agenda.size() >= Capacidad) {
-            System.out.println("La agenda está llena. No hay espacio disponible.");
-            return true;
-        }
-        System.out.println("La agenda aún tiene espacio disponible.");
-        return false;
+        return agenda.size() >= CAPACIDAD;
     }
 
-    public void modificarTelefono(String nombre, String apellido, String nuevoTelefono) {
-
+    // Actualización del atributo sin modificar identificadores principales
+    public String modificarTelefono(String nombre, String apellido, String nuevoTelefono) {
         for (Contacto contacto : agenda) {
-
             if (contacto.getNombre().equalsIgnoreCase(nombre)
                     && contacto.getApellido().equalsIgnoreCase(apellido)) {
 
                 contacto.setTelefono(nuevoTelefono);
-                System.out.println("Teléfono actualizado correctamente.");
-                return;
+                return "Teléfono actualizado correctamente.";
             }
         }
-
-        System.out.println("El contacto no existe.");
+        return "Error: El contacto no existe.";
     }
 
-    public void espaciosLibres() {
-
-        int libres = Capacidad- agenda.size();
-
-        System.out.println("Espacios libres: " + libres);
+    public int espaciosLibres() {
+        return CAPACIDAD - agenda.size();
     }
-
 }
