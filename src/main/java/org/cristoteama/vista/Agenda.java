@@ -1,12 +1,11 @@
 package org.cristoteama.vista;
 
-import org.cristoteama.logica.Agenda;
 import org.cristoteama.modelo.Contacto;
 
 import javax.swing.*;
 import java.util.List;
 
-public class Agendota {
+public class Agenda {
 
     // Componentes de la interfaz gráfica swing vinculados al archivo .form
     private JPanel panel1;
@@ -21,12 +20,12 @@ public class Agendota {
     private JButton modificarTelefonoButton;
 
     // Dependencias lógicas y modelo de datos para la vista
-    private final Agenda miAgenda;
+    private final org.cristoteama.logica.Agenda miAgenda;
     private final DefaultListModel<String> modeloLista;
 
     // Constructor: Inicialización de componentes base
-    public Agendota() {
-        this.miAgenda = new Agenda();
+    public Agenda() {
+        this.miAgenda = new org.cristoteama.logica.Agenda();
         this.modeloLista = new DefaultListModel<>();
         this.list1.setModel(modeloLista);
 

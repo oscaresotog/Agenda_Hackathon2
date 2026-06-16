@@ -27,7 +27,7 @@ Dada la migración a una arquitectura con interfaz gráfica, las responsabilidad
 * **Patrón de Diseño:** Modelo-Vista-Controlador (MVC).
   * *Modelo:* `Contacto.java`
   * *Controlador/Lógica:* `Agenda.java`
-  * *Vista:* `Agendota.java` y `Agendota.form`
+  * *Vista:* `Agendota.java` y `Agenda.form`
 
 ---
 

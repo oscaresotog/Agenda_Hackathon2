@@ -1,6 +1,7 @@
 package org;
 
-import org.cristoteama.vista.Agendota;
+import org.cristoteama.vista.Agenda;
+
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
@@ -22,7 +23,7 @@ public class Main {
 
             // inicio de la ventana y la vista principal
             JFrame frame = new JFrame("Mi Agendota Hackathon");
-            Agendota vista = new Agendota();
+            Agenda vista = new Agenda();
 
             // Configuración del contenedor y propiedades de la ventana
             frame.setContentPane(vista.getPanelPrincipal());
